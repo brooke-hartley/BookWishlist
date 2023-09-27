@@ -1,11 +1,20 @@
 package com.bookwishlist;
 
 public class Book {
-    String addTitle;
-    String addAuthor;
+    private String addTitle;
+    private String addAuthor;
 
-    public void newBook(String title, String author){
+    public Book(String title, String author) {
         this.addTitle = title;
         this.addAuthor = author;
     }
+
+    public String getTitle(){
+        return addTitle;
+    }
+
+    public String getAuthor(){
+        return addAuthor;
+    }
+    
 }
