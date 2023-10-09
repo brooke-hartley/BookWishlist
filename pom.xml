@@ -30,6 +30,11 @@
       <artifactId>httpclient</artifactId>
       <version>4.5.14</version> <!-- Replace with the latest version -->
     </dependency>
+    <dependency>
+      <groupId>com.microsoft.sqlserver</groupId>
+      <artifactId>mssql-jdbc</artifactId>
+      <version>12.4.1.jre11</version>
+    </dependency>
   </dependencies>
 
   <build>
