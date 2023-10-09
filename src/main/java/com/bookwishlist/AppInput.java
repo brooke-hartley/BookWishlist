@@ -1,6 +1,11 @@
 package com.bookwishlist;
 import javax.swing.*;
 import java.awt.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class AppInput extends JFrame{
@@ -11,8 +16,11 @@ public class AppInput extends JFrame{
     private JTextArea displayArea;
     private Library newLib = new Library();
     private JPanel contentPanel;  // Panel to switch between input and display
+    private Connection connection;
 
-    public AppInput() {
+    public AppInput(Connection connection) {
+        this.connection = connection;
+
         setTitle("Text Input");
 
         // Create a panel to hold the content (input fields, display, and back button)
@@ -44,20 +52,39 @@ public class AppInput extends JFrame{
             userInputTitle = titleText.getText();
             userInputAuthor = authorText.getText();
 
-            // Create a new book and add it to the library
-            Book newBook = new Book(userInputTitle, userInputAuthor);
-            newLib.addBook(newBook);
+            try {
+                // Create an INSERT SQL statement
+                String insertSql = "INSERT INTO Books (title, author) VALUES (?, ?)";
+    
+                // Prepare the statement
+                PreparedStatement preparedStatement = connection.prepareStatement(insertSql);
+    
+                // Set the values to insert (e.g., from user input)
+                preparedStatement.setString(1, userInputTitle);
+                preparedStatement.setString(2, userInputAuthor);
+    
+                // Execute the INSERT statement
+                int rowsAffected = preparedStatement.executeUpdate();
+    
+                // Check if the insertion was successful
+                if (rowsAffected > 0) {
+                    System.out.println("Data inserted successfully.");
+                } else {
+                    System.out.println("Data insertion failed.");
+                }
+             
+                // Create a new book and add it to the library
+                Book newBook = new Book(userInputTitle, userInputAuthor);
+                newLib.addBook(newBook);
 
-            // Update the display area with the library's contents
-            //displayLibraryContents();
+                // Reset the text fields after adding the book
+                titleText.setText("");
+                authorText.setText("");
+            
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            }
 
-            // Switch to the display panel
-            //CardLayout cardLayout = (CardLayout) contentPanel.getLayout();
-            //cardLayout.next(contentPanel);
-
-            // Reset the text fields after adding the book
-            titleText.setText("");
-            authorText.setText("");
         });
 
         JButton viewLibraryButton = new JButton("View Library");
