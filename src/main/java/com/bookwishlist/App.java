@@ -10,8 +10,6 @@ public class App {
     public static void main(String[] args) {
         String serverName = "bookwishlist-server.database.windows.net";
         String databaseName = "bookwishlist-data";
-        String username = "brookehartley";
-        String password = "Bh168058";
 
         String jdbcUrl = String.format("jdbc:sqlserver://%s:1433;database=%s;user=%s;password=%s;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;", serverName, databaseName, username, password);
 
